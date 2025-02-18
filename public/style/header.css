@@ -1,0 +1,429 @@
+@media screen and (max-width: 768px) {
+/* Estilização básica */
+      body {
+        font-family: "montserrat", sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        flex-direction: row;
+        background-color: #000000;
+        color: white;
+        padding: 10px 20px;
+        flex-direction: row;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-weight: 300;
+    }
+
+    #open-modal-btn{
+        background-color: #7300FF;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        width: 30%;
+        
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    
+    .modal-content {
+        background-color: #7300FF;
+        padding: 20px;
+        border-radius: 10px;
+        width: 350px;
+        text-align: center;
+        position: relative;
+        max-height: 80vh;
+        overflow-y: auto;
+        transform: scale(0.7);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .modal.show {
+        display: flex;
+        opacity: 1;
+    }
+    
+    .modal.show .modal-content {
+        transform: scale(1);
+    }
+    
+    .modal.hide {
+        opacity: 0;
+    }
+    
+    .modal.hide .modal-content {
+        transform: scale(0.7);
+    }
+
+    
+
+    .modal-content h2 {
+        font-family: "montserrat", sans-serif;
+        font-size: 30px;
+        font-weight: 500;
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: white;
+        
+    }
+
+    .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 45px;
+        margin-top: none;
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: white;
+        position: absolute;
+        left: 19rem;
+    }
+
+    .menu-header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .nav{
+        display: flex;
+        flex-direction: column;
+        align-items: center;  
+        margin-top: 2rem;
+        font-family: "montserrat", sans-serif;
+        font-size: 20px;
+        text-decoration: none;
+        gap: 2rem;
+        height: 30%;
+        margin-bottom: 4rem;
+    }
+
+    .nav a{
+        color: white;
+        text-decoration: none;
+        font-size: 20px;
+        
+    }
+
+    #open-login-modal-btn{
+        background-color: white;
+        color: #7300FF;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        width: 30%;
+        
+    }
+
+    .login-form{
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .modal-content label{
+        font-family: "montserrat", sans-serif;
+        text-align: left;
+        margin-left: 0.5rem;
+        margin-bottom: 0.3rem;
+        color: white;
+
+    }
+
+    .modal-content input{
+        font-family: "montserrat", sans-serif;
+        height: 10px;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 2rem;
+        padding: 10px;
+    }
+
+    .modal-content button{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        width: 30%;
+        height: 40px;
+        border: none;
+        outline: none;
+        background-color: white;
+        margin-left: auto;
+         margin-right: auto;
+         
+        border-radius: 25px;
+        color: #7300FF;
+    }
+
+    #modal-user{
+        height: 50%;
+    }
+
+    #open-register-modal-link{
+        color: rgb(197, 196, 196);
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .modal p strong{
+        font-family: "montserrat", sans-serif;
+        font-size: 25px;
+        font-weight: 300;
+        color: aliceblue;
+
+
+    }
+    
+    .footer-modal{
+        display: flex;
+        flex-direction: column;
+        margin-top: auto;
+        margin-bottom: 0;
+    
+    }
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        font-family: "montserrat", sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        background-color: #000000;
+        color: white;
+        padding: 10px 20px;
+        flex-direction: row;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 40px;
+        position: relative;
+        left: 2%;
+        font-weight: 300;
+    }
+
+    #open-modal-btn{
+        background-color: #7300FF;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        width: 5%;
+        position: relative;
+        left: 45%;
+
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    
+    .modal-content {
+        background-color: #7300FF;
+        padding: 20px;
+        border-radius: 10px;
+        width: 350px;
+        text-align: center;
+        position: relative;
+        max-height: 80vh;
+        overflow-y: auto;
+        transform: scale(0.7);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .modal.show {
+        display: flex;
+        opacity: 1;
+    }
+    
+    .modal.show .modal-content {
+        transform: scale(1);
+    }
+    
+    .modal.hide {
+        opacity: 0;
+    }
+    
+    .modal.hide .modal-content {
+        transform: scale(0.7);
+    }
+
+    .modal-content h2 {
+        font-family: "montserrat", sans-serif;
+        font-size: 35px;
+        font-weight: 500;
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: white;
+        
+    }
+
+    .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 45px;
+        margin-top: none;
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: white;
+        position: absolute;
+        left: 19rem;
+    }
+
+    .menu-header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .nav{
+        display: flex;
+        flex-direction: column;
+        align-items: center;  
+        margin-top: 2rem;
+        font-family: "montserrat", sans-serif;
+        font-size: 20px;
+        text-decoration: none;
+        gap: 2rem;
+        height: 30%;
+        margin-bottom: 4rem;
+    }
+
+    .nav a{
+        color: white;
+        text-decoration: none;
+        font-size: 25px;
+    }
+
+    .nav a:hover{
+        color: #cdcdce;
+    }
+
+    #open-login-modal-btn{
+        background-color: white;
+        color: #7300FF;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        width: 30%;
+        
+    }
+
+    .login-form{
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .modal-content label{
+        font-family: "montserrat", sans-serif;
+        text-align: left;
+        margin-left: 0.5rem;
+        margin-bottom: 0.3rem;
+        color: white;
+
+    }
+
+    .modal-content input{
+        font-family: "montserrat", sans-serif;
+        height: 10px;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 2rem;
+        padding: 10px;
+    }
+
+    .modal-content button{        
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        width: 30%;
+        height: 40px;
+        border: none;
+        outline: none;
+        background-color: white;
+        margin-left: auto;
+         margin-right: auto;
+         
+        border-radius: 25px;
+        color: #7300FF;
+    }
+
+    #modal-user{
+        height: 50%;
+    }
+
+    #open-register-modal-link{
+        color: rgb(197, 196, 196);
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .modal p strong{
+        font-family: "montserrat", sans-serif;
+        font-size: 25px;
+        font-weight: 300;
+        color: aliceblue;
+
+
+    }       
+}
+
+    

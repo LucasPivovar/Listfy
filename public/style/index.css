@@ -1,0 +1,181 @@
+
+@media screen and (max-width: 768px) {
+        
+    body {
+        font-family: "montserrat", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+
+    }
+
+    .main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #1A1919;
+        border-radius: 25px;
+        margin-top: 2rem;
+    }
+
+    .main h1{
+        font-family: "montserrat", sans-serif;
+        font-size: 25px;
+        font-weight: 500;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: #AD6BFD;
+    }
+
+    .main p{
+        font-family: "montserrat", sans-serif;
+        font-size: 15px;
+        font-weight: 300;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: #C0C0C0;
+        width: 90%;
+    }
+
+    .habit_generate{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2rem;
+    }
+
+    .habit_generate textarea{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 1rem;
+        padding: 10px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #3a3939;
+        resize: none;
+        color: white;
+    }
+
+    .habit_generate button{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        width: 60%;
+        height: 40px;
+        border: none;
+        outline: none;
+        background-color: #7300FF;
+        margin-left: auto;
+        margin-right: auto;
+        color: white;
+        font-weight: 300;
+        margin-top: none;
+        margin-bottom: 1rem;
+    }
+
+    .modal p strong{
+        font-family: "montserrat", sans-serif;
+        margin-top: 10rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        font-family: "montserrat", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+
+    }
+
+    .main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #1A1919;
+        border-radius: 25px;
+        margin-top: 10rem;
+
+    }
+
+    .main h1{
+        font-family: "montserrat", sans-serif;
+        font-size: 25px;
+        font-weight: 500;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: #AD6BFD;
+    }
+
+    .main p{
+        font-family: "montserrat", sans-serif;
+        font-size: 15px;
+        font-weight: 300;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: #C0C0C0;
+        width: 95%;
+        text-align: center;
+    }
+
+    .habit_generate{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2rem;
+    }
+
+    .habit_generate textarea{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 1rem;
+        padding: 10px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #3a3939;
+        color: white;
+        resize: none;
+    }
+
+    .habit_generate button{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        width: 60%;
+        height: 40px;
+        border: none;
+        outline: none;
+        background-color: #7300FF;
+        margin-left: auto;
+        margin-right: auto;
+        color: white;
+        font-weight: 300;
+        margin-top: none;
+        margin-bottom: 1rem;
+    }
+
+    .modal p strong{
+        font-family: "montserrat", sans-serif;
+        margin-top: 10rem;
+    }   
+}

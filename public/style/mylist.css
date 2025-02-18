@@ -1,0 +1,445 @@
+
+body {
+    font-family: "montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    overflow-x: hidden;
+}
+@media screen and (max-width: 768px) {
+    body{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    body h3{
+        color: blueviolet;
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    body ul{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+        width: 90%;
+        margin-right: auto;
+        justify-content: space-between;
+    }
+    
+    body li{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        color: white;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    body li strong{
+        color: rgb(162, 23, 255);
+    }
+
+    #delete-btn{
+        border: none;
+        background-color: #8225fc;
+        height: 25px;
+        width: 25px;
+        border-radius: 15px;
+        color: white;
+        margin-right: 2rem;
+        margin-left: 1rem;
+    }
+
+    #add-btn{
+        width: 60px;
+        height: 60px;
+        position: fixed;
+        top: 88%;
+        left: 80%;
+        font-size: 50px;
+        border-radius: 30px;
+        border: none;
+        background-color: white;
+        color: #8225fc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .list{
+        display: flex;  
+        flex-direction: column;
+        margin-bottom: 5rem;
+    }
+
+    .close-btn-list{
+        position: absolute;
+        right: 10%;
+        top: 30.5%;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        width: 30px;
+        height: 30px;
+    }
+
+
+    #check-btn{
+        position: absolute;
+        right: 91%;
+
+    }
+
+    #habit-form{
+        display: none; /* Inicialmente oculto */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .habit-form-content{
+        background-color: #7300FF;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+        justify-content: space-between;
+        height: 50%;  
+        align-items: center;
+        margin: auto;
+        margin-top: 50%
+    }
+
+    .habit-form-content h2{
+        font-family: "montserrat", sans-serif;
+        font-size: 23px;
+        font-weight: 500;
+        margin-top: 0;
+        margin-bottom: 4rem;
+        color: white;
+        margin-right: 1rem;
+    }
+
+    .habit-form-content label{
+        font-family: "montserrat", sans-serif;
+        text-align: left;
+        margin-left: 0.5rem;
+        margin-bottom: 0.3rem;
+        color: white;
+    }
+
+    .habit-form-content input{
+        font-family: "montserrat", sans-serif;
+        height: 10px;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 2rem;
+        padding: 10px;
+    }
+
+    form button{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        width: 30%;
+        height: 40px;
+        border: none;
+        outline: none;
+        background-color: white;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 25px;
+        color: #7300FF;
+    }
+
+    .habit-form-content textarea{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 1rem;
+        padding: 10px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #ffffff;
+    }
+
+    #complete-btn{
+        width: 50%;
+        height: 50px;
+        background-color: #8225fc;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 20px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    body{
+        display: flex;
+        flex-direction: column;
+
+    }
+    body h3{
+        color: blueviolet;
+        font-size: 1.8rem;
+        text-align: center;
+
+    }
+    body h4{
+        color: blueviolet;
+        font-size: 1.8rem;
+
+    }
+    body ul{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+        align-items: center;
+        width: 100%;
+        
+
+    }
+    
+    body li{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 33%;
+        gap: 2rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    body li strong{
+        color: rgb(162, 23, 255);
+    }
+
+    #delete-btn{
+        border: none;
+        background-color: #8225fc;
+        height: 25px;
+        width: 25px;
+        border-radius: 15px;
+        color: white;
+        margin-right: 2rem;
+        margin-left: 1rem;
+    }            
+
+    #delete-btn:hover{
+        background-color: #f443d2;
+    }
+
+    #delete-btn:active{
+        background-color: #d32d9b;
+    }
+
+    .delete-btn-container{        
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        color: white;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #add-btn{
+        width: 60px;
+        height: 60px;
+        position: fixed;
+        top: 86%;
+        left: 93%;
+        font-size: 50px;
+        border-radius: 30px;
+        border: none;
+        background-color: white;
+        color: #8225fc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .list{
+        display: flex;  
+        flex-direction: column;
+        margin-bottom: 5rem;
+    }
+
+    .close-btn-list{
+        position: absolute;
+        right: 10%;
+        top: 30.5%;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        width: 30px;
+        height: 30px;
+    }
+
+
+    #check-btn{
+        position: absolute;
+        right: 68%;
+
+    }
+
+    #habit-form{
+        display: none; /* Inicialmente oculto */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+        justify-content: center;
+        align-items: center;
+    }           
+
+    .habit-form-content{
+        background-color: #7300FF;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+        justify-content: space-between;
+        height: 50%;  
+        align-items: center;
+        margin: auto;
+        margin-top: 50%
+    }
+
+    .habit-form-content h2{
+        font-family: "montserrat", sans-serif;
+        font-size: 23px;
+        font-weight: 500;
+        margin-top: 0;
+        margin-bottom: 4rem;
+        color: white;
+        margin-right: 1rem;
+    }
+
+    .habit-form-content label{
+        font-family: "montserrat", sans-serif;
+        text-align: left;
+        margin-left: 0.5rem;
+        margin-bottom: 0.3rem;
+        color: white;
+    }
+
+    .habit-form-content input{
+        font-family: "montserrat", sans-serif;
+        height: 10px;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 2rem;
+        padding: 10px;
+    }
+
+    form button{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        width: 30%;
+        height: 40px;
+        border: none;
+        outline: none;
+        background-color: white;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 25px;
+        color: #7300FF;
+    }
+
+    .habit-form-content textarea{
+        font-family: "montserrat", sans-serif;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+        margin-bottom: 1rem;
+        padding: 10px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #ffffff;
+    }
+
+    #complete-btn{
+        width: 10%;
+        height: 50px;
+        background-color: #8225fc;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 20px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+    }   
+
+    #complete-btn:hover{
+        background-color: #f443d2;
+    }
+
+    #complete-btn:active{
+        background-color: #d32d9b;
+    }
+
+    .complete-btn-container{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        color: white;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .complete-btn-container button{
+        width: 50%;
+        height: 50px;
+        background-color: #8225fc;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 20px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+    }
+
+    .complete-btn-container button:hover{
+        background-color: #f443d2;
+    }
+
+    .complete-btn-container button:active{
+        background-color: #d32d9b;
+    }           
+}
