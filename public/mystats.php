@@ -2,44 +2,52 @@
 session_start();
 require_once __DIR__ . '/../db.php';
 
-// Verifica se há uma sessão ativa do usuário
-$isLoggedIn = isset($_SESSION['user_id']);
-if (!$isLoggedIn) {
-    header("Location: index.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /../generate.php");
     exit;
 }
 
 $userId = $_SESSION['user_id'];
-$currentMonth = date('Y-m'); // Formato: YYYY-MM
+$currentMonth = date('Y-m');
 
-// Logout
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     session_destroy();
-    header("Location: index.php");
+    header("Location: /../generate.php");
     exit;
 }
 
-// Calcular o total de hábitos diários
+// Calcular o total de hábitos diários do usuário
 $stmt = $pdo->prepare("SELECT COUNT(*) AS total_habits FROM habits WHERE user_id = ?");
 $stmt->execute([$userId]);
 $totalDailyHabits = $stmt->fetchColumn();
 
-// Calcular o número de dias no mês atual
 $daysInMonth = date('t');
-
-// Total de hábitos esperados no mês
 $totalMonthlyHabits = $totalDailyHabits * $daysInMonth;
 
-// Buscar estatísticas mensais (hábitos concluídos)
-$stmt = $pdo->prepare("SELECT SUM(completed_habits) AS completed_habits 
-                       FROM stats 
-                       WHERE user_id = ? AND date LIKE ?");
-$stmt->execute([$userId, "$currentMonth%"]);
-$stats = $stmt->fetch(PDO::FETCH_ASSOC);
+// Recuperar o total de hábitos concluídos no mês atual
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) AS completed_habits
+    FROM habit_tracking
+    WHERE user_id = ? AND DATE_FORMAT(date, '%Y-%m') = ?
+");
+$stmt->execute([$userId, $currentMonth]);
+$completedHabits = $stmt->fetchColumn();
 
-$completedHabits = $stats['completed_habits'] ?? 0;
+// Depuração
+$debugInfo = "<!-- Debug: \n" .
+             "userId: $userId\n" .
+             "currentMonth: $currentMonth\n" .
+             "totalDailyHabits: $totalDailyHabits\n" .
+             "daysInMonth: $daysInMonth\n" .
+             "totalMonthlyHabits: $totalMonthlyHabits\n" .
+             "SQL Query: " . $stmt->queryString . "\n" .
+             "SQL Params: " . json_encode([$userId, $currentMonth]) . "\n" .
+             "completedHabits: $completedHabits\n" .
+             "-->";
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -48,90 +56,49 @@ $completedHabits = $stats['completed_habits'] ?? 0;
     <title>Minhas Estatísticas</title>
     <link rel="stylesheet" href="./style/header.css">
     <link rel="stylesheet" href="./style/mystats.css">
+    <link rel="icon" type="image/png" href="./assets/lua.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <?php echo $debugInfo; ?>
     <div class="header">
         <h1>Listify</h1>
         <button id="open-modal-btn">Menu</button>
-        
         <div id="modal" class="modal">
             <div class="modal-content">
                 <div class="menu-header">
-                    <h2>Listify</h2> 
+                    <h2>Listify</h2>
                     <span class="close-btn">&times;</span>
                 </div>
-
                 <div class="nav">
-                    <a href="index.php">Home</a>
+                    <a href="/../generate.php">Home</a>
                     <a href="mylist.php">Minha Lista de Hábitos</a>
                     <a href="#">Minha Estatística</a>
                 </div>
-
                 <div class="footer-modal">
-                    <?php if ($isLoggedIn): ?>
-                        <p><strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></p>
-                        <form method="POST">
-                            <button type="submit" name="logout">Sair</button>
-                        </form>
-                    <?php else: ?>
-                        <button id="open-login-modal-btn">Entrar</button>
-                    <?php endif; ?>
+                    <p><strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></p>
+                    <form method="POST">
+                        <button type="submit" name="logout">Sair</button>
+                    </form>
                 </div>
-            </div>
-        </div>
-
-        <!-- Modal de Login -->
-        <div id="login-modal" class="modal">
-            <div class="modal-content">
-                <div class="menu-header">
-                    <h2>Entrar</h2>
-                    <span class="close-btn">&times;</span>
-                </div>
-                <form method="POST">
-                    <label for="username">Nome de usuário:</label>
-                    <input type="text" id="username" name="username" required>
-                    <label for="password">Senha:</label>
-                    <input type="password" id="password" name="password" required>
-                    <button type="submit" name="login">Entrar</button>
-                </form>
-                <p>Não tem uma conta? <a href="#" id="open-register-modal-link">Registre-se</a></p>
-            </div>
-        </div>
-
-        <!-- Modal de Registro -->
-        <div id="register-modal" class="modal">
-            <div class="modal-content">
-                <div class="menu-header">
-                    <h2>Registrar</h2>
-                    <span class="close-btn">&times;</span>
-                </div>
-                <form method="POST">
-                    <label for="username">Nome de usuário:</label>
-                    <input type="text" id="username" name="username" required>
-                    <label for="register-password">Senha:</label>
-                    <input type="password" id="register-password" name="register-password" required>
-                    <button type="submit" name="register">Registrar</button>
-                </form>
             </div>
         </div>
     </div>
-
     <div class="main">
         <h4>Minhas Estatísticas</h4>
-        <p>No mês, o total de hábitos concluídos foi de: <br> <?php echo $completedHabits; ?>/<?php echo $totalMonthlyHabits; ?></p>
-        <p><strong>Parabens!</strong></p>
+        <p>Total de hábitos concluídos no mês: <br>
+            <strong><?php echo $completedHabits; ?> / <?php echo $totalMonthlyHabits; ?></strong>
+        </p>
+        <p><strong>Parabéns!</strong></p>
+        <canvas id="habitsChart" width="400" height="200"></canvas>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // Modal script
             const modal = document.getElementById("modal");
             const openModalBtn = document.getElementById("open-modal-btn");
             const closeBtns = document.querySelectorAll(".close-btn");
-            const loginModal = document.getElementById("login-modal");
-            const openLoginModalBtn = document.getElementById("open-login-modal-btn");
-            const registerModal = document.getElementById("register-modal");
-            const openRegisterModalLink = document.getElementById("open-register-modal-link");
 
-            // Função para exibir modal com animação
             function showModal(modalElement) {
                 if (modalElement) {
                     modalElement.style.display = "flex";
@@ -142,7 +109,6 @@ $completedHabits = $stats['completed_habits'] ?? 0;
                 }
             }
 
-            // Função para ocultar modal com animação
             function closeModal(modalElement) {
                 if (modalElement) {
                     modalElement.style.opacity = "0";
@@ -153,47 +119,58 @@ $completedHabits = $stats['completed_habits'] ?? 0;
                 }
             }
 
-            // Abrir modal do menu
             if (openModalBtn && modal) {
                 openModalBtn.addEventListener("click", function () {
                     showModal(modal);
                 });
             }
 
-            // Abrir modal de login
-            if (openLoginModalBtn && loginModal) {
-                openLoginModalBtn.addEventListener("click", function () {
-                    closeModal(modal);
-                    setTimeout(() => showModal(loginModal), 200);
-                });
-            }
-
-            // Abrir modal de registro
-            if (openRegisterModalLink && registerModal) {
-                openRegisterModalLink.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    closeModal(loginModal);
-                    setTimeout(() => showModal(registerModal), 200);
-                });
-            }
-
-            // Fechar modais ao clicar nos botões de fechar
             closeBtns.forEach(btn => {
                 btn.addEventListener("click", function () {
                     closeModal(modal);
-                    closeModal(loginModal);
-                    closeModal(registerModal);
                 });
             });
 
-            // Fechar modal ao clicar fora dele
             window.addEventListener("click", function (e) {
                 if (e.target === modal) closeModal(modal);
-                if (e.target === loginModal) closeModal(loginModal);
-                if (e.target === registerModal) closeModal(registerModal);
+            });
+
+            // Chart script
+            var ctx = document.getElementById('habitsChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Hábitos'],
+                    datasets: [{
+                        label: 'Concluídos',
+                        data: [<?php echo $completedHabits; ?>],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Total Esperado',
+                        data: [<?php echo $totalMonthlyHabits; ?>],
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Hábitos Concluídos vs. Total Esperado'
+                        }
+                    }
+                }
             });
         });
     </script>
-
 </body>
 </html>

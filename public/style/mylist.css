@@ -23,7 +23,7 @@ body {
         flex-direction: column;
         gap: 1rem;
         margin-top: 1rem;
-        width: 90%;
+        width: 100%;
         margin-right: auto;
         justify-content: space-between;
     }
@@ -33,16 +33,18 @@ body {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
+        width: 95%;
         gap: 1rem;
         margin-bottom: 1rem;
         color: white;
         margin-left: auto;
         margin-right: auto;
+        text-align: left;
     }
 
     body li strong{
-        color: rgb(162, 23, 255);
+        color: rgb(196, 110, 253);
+        text-align: left;
     }
 
     #delete-btn{
@@ -61,7 +63,7 @@ body {
         height: 60px;
         position: fixed;
         top: 88%;
-        left: 80%;
+        left: 70%;
         font-size: 50px;
         border-radius: 30px;
         border: none;
@@ -177,6 +179,102 @@ body {
     }
 
     #complete-btn{
+        width: 30%;
+        height: 50px;
+        background-color: #8225fc;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 20px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+    }   
+
+    
+    .custom-checkbox {
+        display: inline-block;
+        position: relative;
+        padding-left: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        user-select: none;
+        right: 12%;
+      }
+      
+      .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+      
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+      
+      .custom-checkbox:hover input ~ .checkmark {
+        background-color: #ccc;
+      }
+      
+      .custom-checkbox input:checked ~ .checkmark {
+        background-color: #8A2BE2; /* Cor de fundo roxa */
+      }
+      
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      
+      .custom-checkbox input:checked ~ .checkmark:after {
+        display: block;
+      }
+      
+      .custom-checkbox .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white; /* Cor da marca de seleção branca */
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+      }
+      
+
+    #complete-btn:hover{
+        background-color: #f443d2;
+        cursor: pointer;
+    }
+
+    #complete-btn:active{
+        background-color: #d32d9b;
+        cursor: pointer;
+    }
+
+    .complete-btn-container{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        color: white;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .complete-btn-container button{
         width: 50%;
         height: 50px;
         background-color: #8225fc;
@@ -189,6 +287,14 @@ body {
         margin-right: auto;
         margin-bottom: 1rem;
     }
+
+    .complete-btn-container button:hover{
+        background-color: #f443d2;
+    }
+
+    .complete-btn-container button:active{
+        background-color: #d32d9b;
+    }           
 }
 
 @media screen and (min-width: 768px) {
@@ -198,13 +304,13 @@ body {
 
     }
     body h3{
-        color: blueviolet;
+        color: rgb(174, 120, 224);
         font-size: 1.8rem;
         text-align: center;
 
     }
     body h4{
-        color: blueviolet;
+        color: rgb(172, 97, 243);
         font-size: 1.8rem;
 
     }
@@ -233,6 +339,9 @@ body {
     body li strong{
         color: rgb(162, 23, 255);
     }
+    body li p{
+        width: 50%
+    }
 
     #delete-btn{
         border: none;
@@ -251,6 +360,10 @@ body {
 
     #delete-btn:active{
         background-color: #d32d9b;
+    }
+
+    #desc{
+        width:50%; 
     }
 
     .delete-btn-container{        
@@ -299,11 +412,18 @@ body {
         height: 30px;
     }
 
+    .check-btn{
+        position: absolute;
+        right: 68%;
+        margin-left: 10rem;
+    }
+
+
 
     #check-btn{
         position: absolute;
         right: 68%;
-
+        margin-left: 10rem;
     }
 
     #habit-form{
@@ -400,12 +520,73 @@ body {
         margin-bottom: 1rem;
     }   
 
+    
+    .custom-checkbox {
+        display: inline-block;
+        position: relative;
+        padding-left: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        user-select: none;
+        right: 15%;
+      }
+      
+      .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+      
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+      
+      .custom-checkbox:hover input ~ .checkmark {
+        background-color: #ccc;
+      }
+      
+      .custom-checkbox input:checked ~ .checkmark {
+        background-color: #8A2BE2; /* Cor de fundo roxa */
+      }
+      
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      
+      .custom-checkbox input:checked ~ .checkmark:after {
+        display: block;
+      }
+      
+      .custom-checkbox .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white; /* Cor da marca de seleção branca */
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+      }
+      
+
     #complete-btn:hover{
         background-color: #f443d2;
+        cursor: pointer;
     }
 
     #complete-btn:active{
         background-color: #d32d9b;
+        cursor: pointer;
     }
 
     .complete-btn-container{

@@ -1,181 +1,197 @@
-
-@media screen and (max-width: 768px) {
-        
-    body {
-        font-family: "montserrat", sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #000000;
-
-    }
-
-    .main{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #1A1919;
-        border-radius: 25px;
-        margin-top: 2rem;
-    }
-
-    .main h1{
-        font-family: "montserrat", sans-serif;
-        font-size: 25px;
-        font-weight: 500;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        color: #AD6BFD;
-    }
-
-    .main p{
-        font-family: "montserrat", sans-serif;
-        font-size: 15px;
-        font-weight: 300;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        color: #C0C0C0;
-        width: 90%;
-    }
-
-    .habit_generate{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 95%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 2rem;
-    }
-
-    .habit_generate textarea{
-        font-family: "montserrat", sans-serif;
-        border-radius: 15px;
-        outline: none;
-        border: none;
-        margin-bottom: 1rem;
-        padding: 10px;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #3a3939;
-        resize: none;
-        color: white;
-    }
-
-    .habit_generate button{
-        font-family: "montserrat", sans-serif;
-        border-radius: 15px;
-        width: 60%;
-        height: 40px;
-        border: none;
-        outline: none;
-        background-color: #7300FF;
-        margin-left: auto;
-        margin-right: auto;
-        color: white;
-        font-weight: 300;
-        margin-top: none;
-        margin-bottom: 1rem;
-    }
-
-    .modal p strong{
-        font-family: "montserrat", sans-serif;
-        margin-top: 10rem;
-    }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-@media screen and (min-width: 768px) {
-    body {
-        font-family: "montserrat", sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #000000;
+body{
+    background-color: #f2f2f2;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-    }
 
+.texts h3 {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    color: #7300FF;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.texts h1 {
+    font-size: 3rem;
+    color: black;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.texts p{
+    font-size: 1.2rem;
+    color: #414141;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.btn{
+    background-color: #7300FF;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    width: 100%;
+    height: 50px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover{
+    background-color: #f443d2;
+    cursor: pointer;
+}
+
+.btn:active{
+    background-color: #d32d9b;
+    cursor: pointer;
+}
+
+#runner{
+    width: 650px;
+    height: 650px;
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content{
+    width: 480px;
+    gap: 1rem; 
+    margin-right: 10rem; 
+    display: flex   ;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: -8rem;
+}
+
+@media screen and (min-width: 1480px) {
     .main{
+        background-image: url("../assets/bg-dsk.png");
+        background-size: cover;
+        width: 100%;
+        height: 100vh;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
         justify-content: center;
-        width: 30%;
+        align-items: center;
+        gap:15rem;
+
+    }
+
+
+}
+
+@media screen and (max-width: 1480px) {
+    .main{
+        background-image: url("../assets/bg-dsk.png");
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap:10rem;
+
+    }
+    .content{
+        width: 100%;
+        gap: 1rem; 
+        margin-right: 0;   
+    }   
+
+    #runner{
+        width: 500px;
+        height: 500px;
         margin-left: auto;
         margin-right: auto;
-        background-color: #1A1919;
-        border-radius: 25px;
-        margin-top: 10rem;
-
     }
-
-    .main h1{
-        font-family: "montserrat", sans-serif;
-        font-size: 25px;
-        font-weight: 500;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        color: #AD6BFD;
-    }
-
-    .main p{
-        font-family: "montserrat", sans-serif;
-        font-size: 15px;
-        font-weight: 300;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        color: #C0C0C0;
-        width: 95%;
-        text-align: center;
-    }
-
-    .habit_generate{
+        
+    body{
+        background-color: #f2f2f2;
+        font-family: 'Poppins', sans-serif;
         display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
-        width: 95%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 2rem;
+        align-items: center;
+        min-height: 100vh;
     }
 
-    .habit_generate textarea{
-        font-family: "montserrat", sans-serif;
-        border-radius: 15px;
-        outline: none;
+
+    .texts h3 {
+        opacity: 0;
+        transform: translateX(-100px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        color: #7300FF;
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .texts h1 {
+        font-size: 3rem;
+        color: black;
+        margin-bottom: 1rem;
+    }
+
+    .texts p{
+        font-size: 1.2rem;
+        color: #414141;
+        margin-bottom: 2rem;
+    }
+
+    .btn{
+        background-color: #7300FF;
+        color: white;
         border: none;
+        border-radius: 25px;
+        font-size: 20px;
+        text-align: center;
         margin-bottom: 1rem;
         padding: 10px;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #3a3939;
-        color: white;
-        resize: none;
+        width: 100%;
+        height: 50px;
+        transition: background-color 0.3s;
     }
 
-    .habit_generate button{
-        font-family: "montserrat", sans-serif;
-        border-radius: 15px;
-        width: 60%;
-        height: 40px;
-        border: none;
-        outline: none;
-        background-color: #7300FF;
-        margin-left: auto;
-        margin-right: auto;
-        color: white;
-        font-weight: 300;
-        margin-top: none;
-        margin-bottom: 1rem;
+    .btn:hover{
+        background-color: #f443d2;
+        cursor: pointer;
     }
 
-    .modal p strong{
-        font-family: "montserrat", sans-serif;
-        margin-top: 10rem;
-    }   
+    .btn:active{
+        background-color: #d32d9b;
+        cursor: pointer;
+    }
+
+    #runner{
+        width: 550px;
+        height: 550px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .content{
+        width: 500px;
+        gap: 1rem; 
+        margin-right: 5rem;   
+    }
 }

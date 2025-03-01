@@ -1,43 +1,60 @@
 <?php
 session_start();
 require_once __DIR__ . '/../db.php';
+header('Content-Type: application/json');
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['error' => 'Usuário não autenticado']);
+    exit;
+}
 
 $userId = $_SESSION['user_id'];
-$data = json_decode(file_get_contents('php://input'), true);
-$completedHabits = $data['completed_habits'] ?? [];
-$date = date('Y-m-d');
+$currentDate = date('Y-m-d');
 $currentMonth = date('Y-m');
+$firstDayOfMonth = date('Y-m-01');
 
-try {
-    $pdo->beginTransaction();
+// Total de hábitos diários
+$stmt = $pdo->prepare("SELECT COUNT(*) AS total_habits FROM habits WHERE user_id = ?");
+$stmt->execute([$userId]);
+$totalDailyHabits = $stmt->fetchColumn();
 
-    // Registrar hábitos concluídos
-    foreach ($completedHabits as $habitId) {
-        $stmt = $pdo->prepare("INSERT INTO habit_tracking (user_id, habit_id, date) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE date = VALUES(date)");
-        $stmt->execute([$userId, $habitId, $date]);
-    }
+// Hábitos concluídos hoje
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) AS completed_today
+    FROM habit_tracking
+    WHERE user_id = ? AND date = ?
+");
+$stmt->execute([$userId, $currentDate]);
+$completedToday = $stmt->fetchColumn();
 
-    // Calcular o total de hábitos diários
-    $stmt = $pdo->prepare("SELECT COUNT(*) AS total_habits FROM habits WHERE user_id = ?");
-    $stmt->execute([$userId]);
-    $totalDailyHabits = $stmt->fetchColumn();
+// Hábitos concluídos no mês
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) AS completed_this_month
+    FROM habit_tracking
+    WHERE user_id = ? AND date BETWEEN ? AND ?
+");
+$stmt->execute([$userId, $firstDayOfMonth, $currentDate]);
+$completedThisMonth = $stmt->fetchColumn();
 
-    // Calcular o número de dias no mês atual
-    $daysInMonth = date('t');
+// Total esperado no mês
+$daysInMonth = date('t');
+$totalMonthlyHabits = $totalDailyHabits * $daysInMonth;
 
-    // Total de hábitos esperados no mês
-    $totalMonthlyHabits = $totalDailyHabits * $daysInMonth;
+// Calcular porcentagens
+$percentageToday = $totalDailyHabits > 0 ? round(($completedToday / $totalDailyHabits) * 100, 2) : 0;
+$percentageMonthly = $totalMonthlyHabits > 0 ? round(($completedThisMonth / $totalMonthlyHabits) * 100, 2) : 0;
 
-    // Atualizar estatísticas mensais
-    $stmt = $pdo->prepare("INSERT INTO stats (user_id, total_habits, completed_habits, date) 
-                           VALUES (?, ?, ?, ?) 
-                           ON DUPLICATE KEY UPDATE completed_habits = completed_habits + ?");
-    $stmt->execute([$userId, $totalMonthlyHabits, count($completedHabits), $currentMonth, count($completedHabits)]);
+echo json_encode([
+    'total_daily' => $totalDailyHabits,
+    'completed_today' => $completedToday,
+    'percentage_today' => $percentageToday,
+    'total_monthly' => $totalMonthlyHabits,
+    'completed_this_month' => $completedThisMonth,
+    'percentage_monthly' => $percentageMonthly
+]);
 
-    $pdo->commit();
-    echo "Hábitos concluídos registrados com sucesso!";
-} catch (Exception $e) {
-    $pdo->rollBack();
-    echo "Erro ao registrar hábitos concluídos: " . $e->getMessage();
-}
+error_log("Debug: userId=$userId, totalDailyHabits=$totalDailyHabits, completedToday=$completedToday, completedThisMonth=$completedThisMonth");
 ?>
