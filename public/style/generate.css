@@ -172,6 +172,11 @@
         font-weight: 300;
         margin-top: none;
         margin-bottom: 1rem;
+        cursor: pointer;
+    }
+
+    .habit_generate button:hover{
+        background-color: #4f03ad;
     }
 
     .modal p strong{

@@ -9,25 +9,16 @@
 </head>
 <body>
     <div class="main">
-        <img src="public/assets/runner.png" alt="corredor" id="runner">
-        <div class="content">
-            <div class="texts">
-                <h1>Listify</h1>
-                <h3 id="animated-text">Transforme Seus Hábitos em Resultados!</h3>
-                <p>Crie, gerencie e acompanhe seus hábitos diários com inteligência. Alcance seus objetivos com o poder da IA!"</p>
-            </div>
+        <div class="frame-one">
+            <h1>Listify</h1>
+            <p>Crie, gerencie e acompanhe seus hábitos diários com inteligência. Alcance seus objetivos com o poder da IA!"</p>
             <a href="generate.php"><button class="btn">Começe agora!</button></a>
         </div>
+        <section class="mockup">
+            <div class="phone">
+                <img src="public/assets/home.png" alt="App Preview" width="300px" height="600px">
+            </div>
+        </section>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const h3 = document.getElementById("animated-text");
-            
-            setTimeout(() => {
-                h3.style.opacity = "1";
-                h3.style.transform = "translateX(0)";
-            }, 300);
-        });
-    </script>
 </body>
 </html>

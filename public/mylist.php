@@ -1,16 +1,18 @@
 <?php
 session_start();
 require_once __DIR__ . '/../db.php';
-
 $isLoggedIn = isset($_SESSION['user_id']);
 if (!$isLoggedIn) {
-    header("Location: /../generate.php"); 
+    header("Location: /../generate.php?error=nologin");
     exit;
 }
-
 $userId = $_SESSION['user_id'];
 $error = '';
 $successMessage = '';
+
+
+$habits = $_SESSION['generated_habits'] ?? [];
+unset($_SESSION['generated_habits']);
 
 function redirect($url) {
     header("Location: $url");
@@ -20,82 +22,85 @@ function redirect($url) {
 // Logout
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     session_destroy();
-    redirect("/../generate.php");
+    redirect("/../generate.php?success=logout");
 }
 
 // Adicionar novo hábito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_habit'])) {
     $habitName = filter_var(trim($_POST['habit_name']), FILTER_SANITIZE_STRING);
     $habitDescription = filter_var(trim($_POST['habit_description']), FILTER_SANITIZE_STRING);
+    
     if (!empty($habitName) && !empty($habitDescription)) {
         try {
             $stmt = $pdo->prepare("INSERT INTO habits (user_id, habit_name, habit_description) VALUES (?, ?, ?)");
             $stmt->execute([$userId, $habitName, $habitDescription]);
-            $successMessage = "Hábito adicionado com sucesso!";
-            redirect("mylist.php");
+            redirect("mylist.php?success=habit_added");
         } catch (PDOException $e) {
-            $error = "Erro ao adicionar hábito: " . $e->getMessage();
+            redirect("mylist.php?error=habit_add_failed");
         }
     } else {
-        $error = "Por favor, preencha todos os campos.";
+        redirect("mylist.php?error=empty_fields");
     }
 }
 
+
+
+// Deletar hábito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_habit'])) {
     $habitId = filter_var($_POST['habit_id'], FILTER_VALIDATE_INT);
+    
     if ($habitId) {
         try {
             $stmt = $pdo->prepare("DELETE FROM habits WHERE id = ? AND user_id = ?");
             $stmt->execute([$habitId, $userId]);
-            $successMessage = "Hábito removido com sucesso!";
-            redirect("mylist.php");
+            redirect("mylist.php?success=habit_deleted");
         } catch (PDOException $e) {
-            $error = "Erro ao remover hábito: " . $e->getMessage();
+            redirect("mylist.php?error=habit_delete_failed");
         }
     } else {
-        $error = "ID do hábito inválido.";
+        redirect("mylist.php?error=invalid_habit_id");
     }
 }
 
+// Completar hábito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_habit'])) {
     $habitId = filter_var($_POST['habit_id'], FILTER_VALIDATE_INT);
     $date = date('Y-m-d');
+    
     if ($habitId) {
         try {
             $stmt = $pdo->prepare("INSERT INTO habit_tracking (user_id, habit_id, date) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE date = VALUES(date)");
             $stmt->execute([$userId, $habitId, $date]);
-            $successMessage = "Hábito marcado como concluído!";
-            redirect("mylist.php");
+            redirect("mylist.php?success=habit_completed");
         } catch (PDOException $e) {
-            $error = "Erro ao marcar hábito: " . $e->getMessage();
+            redirect("mylist.php?error=habit_complete_failed");
         }
     } else {
-        $error = "ID do hábito inválido.";
+        redirect("mylist.php?error=invalid_habit_id");
     }
 }
 
+// Buscar hábitos
 try {
     $stmt = $pdo->prepare("SELECT id, habit_name, habit_description FROM habits WHERE user_id = ?");
     $stmt->execute([$userId]);
     $habitos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    $error = "Erro ao buscar hábitos: " . $e->getMessage();
     $habitos = [];
 }
 
+// Buscar hábitos concluídos
 $date = date('Y-m-d');
 try {
     $stmt = $pdo->prepare("SELECT habit_id FROM habit_tracking WHERE user_id = ? AND date = ?");
     $stmt->execute([$userId, $date]);
     $habitosConcluidos = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
 } catch (PDOException $e) {
-    $error = "Erro ao buscar hábitos concluídos: " . $e->getMessage();
     $habitosConcluidos = [];
 }
-
 ?>
-
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -106,8 +111,47 @@ try {
     <link rel="icon" type="image/png" href="./assets/lua.png">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // Função para exibir alertas
+            function showAlert(message, type = 'info') {
+                const alertTypes = {
+                    'info': '📢 Informação',
+                    'success': '✅ Sucesso',
+                    'error': '❌ Erro'
+                };
+                alert(`${alertTypes[type]}\n\n${message}`);
+            }
+
+            // Verifica se há mensagens de sucesso ou erro na URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const successParam = urlParams.get('success');
+            const errorParam = urlParams.get('error');
+
+            // Alertas de sucesso
+            if (successParam === 'habit_added') {
+                showAlert('Hábito adicionado com sucesso!', 'success');
+            } else if (successParam === 'habit_deleted') {
+                showAlert('Hábito removido com sucesso!', 'success');
+            } else if (successParam === 'habit_completed') {
+                showAlert('Hábito marcado como concluído!', 'success');
+            }
+
+            // Alertas de erro
+            if (errorParam === 'habit_add_failed') {
+                showAlert('Erro ao adicionar hábito. Tente novamente.', 'error');
+            } else if (errorParam === 'habit_delete_failed') {
+                showAlert('Erro ao remover hábito. Tente novamente.', 'error');
+            } else if (errorParam === 'habit_complete_failed') {
+                showAlert('Erro ao marcar hábito como concluído. Tente novamente.', 'error');
+            } else if (errorParam === 'empty_fields') {
+                showAlert('Por favor, preencha todos os campos.', 'error');
+            } else if (errorParam === 'invalid_habit_id') {
+                showAlert('ID do hábito inválido.', 'error');
+            }
+
+            // Lógica para redefinir hábitos diariamente
             const today = new Date().toISOString().split('T')[0];
             const lastAccessDate = localStorage.getItem('lastAccessDate');
+            
             if (!lastAccessDate || lastAccessDate !== today) {
                 saveCompletedHabits().then(() => {
                     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -116,14 +160,70 @@ try {
                     localStorage.setItem('lastAccessDate', today);
                 }).catch(error => console.error('Erro ao salvar hábitos:', error));
             }
+
+            // Modal e navegação
+            const modal = document.getElementById("modal");
+            const openModalBtn = document.getElementById("open-modal-btn");
+            const closeBtns = document.querySelectorAll(".close-btn");
+            const habitForm = document.getElementById("habit-form");
+            const addBtn = document.getElementById("add-btn");
+            const closeHabitFormBtn = document.querySelector(".close-btn-list");
+
+            // Funções de modal
+            function showModal(modalElement) {
+                if (modalElement) {
+                    modalElement.style.display = "flex";
+                    setTimeout(() => {
+                        modalElement.style.opacity = "1";
+                        modalElement.style.transform = "scale(1)";
+                    }, 10);
+                }
+            }
+
+            function closeModal(modalElement) {
+                if (modalElement) {
+                    modalElement.style.opacity = "0";
+                    modalElement.style.transform = "scale(0.9)";
+                    setTimeout(() => {
+                        modalElement.style.display = "none";
+                    }, 200);
+                }
+            }
+
+            // Eventos de modal
+            if (openModalBtn && modal) {
+                openModalBtn.addEventListener("click", () => showModal(modal));
+            }
+
+            if (addBtn && habitForm) {
+                addBtn.addEventListener("click", () => showModal(habitForm));
+            }
+
+            if (closeHabitFormBtn && habitForm) {
+                closeHabitFormBtn.addEventListener("click", () => closeModal(habitForm));
+            }
+
+            closeBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    closeModal(modal);
+                    closeModal(habitForm);
+                });
+            });
+
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) closeModal(modal);
+                if (e.target === habitForm) closeModal(habitForm);
+            });
         });
 
+        // Função para salvar hábitos concluídos
         function saveCompletedHabits() {
             return new Promise((resolve, reject) => {
                 const completedHabits = [];
                 document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
                     completedHabits.push(checkbox.value);
                 });
+                
                 fetch('update_stats.php', {
                     method: 'POST',
                     headers: {
@@ -131,24 +231,28 @@ try {
                     },
                     body: JSON.stringify({ completed_habits: completedHabits })
                 }).then(response => response.text())
-                  .then(data => {
-                      console.log(data);
-                      resolve();
-                  })
-                  .catch(error => reject(error));
+                .then(data => {
+                    console.log(data);
+                    resolve();
+                })
+                .catch(error => reject(error));
             });
         }
 
+        // Função para enviar hábitos concluídos
         function sendCompletedHabits() {
-            saveCompletedHabits().then(() => {
-                alert('Hábitos concluídos salvos com sucesso!');
-                window.location.reload();
-            }).catch(error => {
-                console.error('Erro ao salvar hábitos:', error);
-                alert('Erro ao salvar hábitos.');
-            });
+            saveCompletedHabits()
+                .then(() => {
+                    showAlert('Hábitos concluídos salvos com sucesso!', 'success');
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar hábitos:', error);
+                    showAlert('Erro ao salvar hábitos.', 'error');
+                });
         }
 
+        // Função para alternar formulário de hábito
         function toggleForm() {
             const form = document.getElementById('habit-form');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
@@ -198,19 +302,24 @@ try {
         <ul>
             <?php foreach ($habitos as $habito): ?>
                 <li>
-                    <form method="POST" style="display:inline;" id="habit-list-view">
-                        <input type="hidden" name="habit_id" value="<?php echo $habito['id']; ?>">
-                        <label class="custom-checkbox">
-                            <input type="checkbox" name="complete_habit" id="check-btn" onchange="this.form.submit()" value="<?php echo $habito['id']; ?>" <?php echo in_array($habito['id'], $habitosConcluidos) ? 'checked' : ''; ?>>
-                            <span class="checkmark"></span>
-                        </label>
-                        <strong><?php echo htmlspecialchars($habito['habit_name']); ?>:</strong>
-                        <?php echo htmlspecialchars($habito['habit_description']); ?>
-                    </form>
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="habit_id" value="<?php echo $habito['id']; ?>">
-                        <button type="submit" name="delete_habit" id="delete-btn">X</button>
-                    </form>
+                    <div class="habit-item">
+                        <form method="POST" style="display:flex; align-items: center; width: 100%;">
+                            <input type="hidden" name="habit_id" value="<?php echo $habito['id']; ?>">
+
+                            <div class="habit-details">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="complete_habit" id="check-btn" onchange="this.form.submit()" value="<?php echo $habito['id']; ?>" <?php echo in_array($habito['id'], $habitosConcluidos) ? 'checked' : ''; ?>>
+                                    <span class="checkmark"></span>
+                                </label>
+
+                                <p><strong><?php echo htmlspecialchars($habito['habit_name']); ?>:</strong>
+
+                                <?php echo htmlspecialchars($habito['habit_description']); ?></p>
+                                <button type="submit" name="delete_habit" class="delete-btn" onclick="return confirmDelete()">🗑️</button>
+
+                            </div>
+                        </form>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -232,7 +341,7 @@ try {
         </div>
     </div>
 
-    <button onclick="sendCompletedHabits()" id="complete-btn">Concluir Hábitos</button>
+    <button onclick="sendCompletedHabits()" id="complete-btn">Concluir</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -245,7 +354,6 @@ try {
             const openRegisterModalLink = document.getElementById("open-register-modal-link");
             const habitForm = document.getElementById("habit-form");
             const addBtn = document.getElementById("add-btn");
-            const closeHabitFormBtn = document.querySelector(".close-btn-list");
 
             function showModal(modalElement) {
                 if (modalElement) {
@@ -255,6 +363,10 @@ try {
                         modalElement.style.transform = "scale(1)";
                     }, 10);
                 }
+            }
+
+            function confirmDelete() {
+                return confirm('Tem certeza que deseja remover este hábito?');
             }
 
             function closeModal(modalElement) {
@@ -293,20 +405,6 @@ try {
                     showModal(habitForm);
                 });
             }
-
-            if (closeHabitFormBtn && habitForm) {
-                closeHabitFormBtn.addEventListener("click", function () {
-                    closeModal(habitForm);
-                });
-            }
-
-            closeBtns.forEach(btn => {
-                btn.addEventListener("click", function () {
-                    closeModal(modal);
-                    closeModal(loginModal);
-                    closeModal(registerModal);
-                });
-            });
 
             window.addEventListener("click", function (e) {
                 if (e.target === modal) closeModal(modal);

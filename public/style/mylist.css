@@ -24,8 +24,8 @@ body {
         gap: 1rem;
         margin-top: 1rem;
         width: 100%;
-        margin-right: auto;
-        justify-content: space-between;
+        margin-right: 1rem;
+        justify-content: center;
     }
     
     body li{
@@ -33,29 +33,23 @@ body {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        width: 95%;
+        width: 100%;
         gap: 1rem;
         margin-bottom: 1rem;
         color: white;
-        margin-left: auto;
-        margin-right: auto;
+        margin-right: 1rem;
+    }
+
+    body li p{
+        width: 300px;
         text-align: left;
+        margin-right: 2rem;
+
     }
 
     body li strong{
         color: rgb(196, 110, 253);
         text-align: left;
-    }
-
-    #delete-btn{
-        border: none;
-        background-color: #8225fc;
-        height: 25px;
-        width: 25px;
-        border-radius: 15px;
-        color: white;
-        margin-right: 2rem;
-        margin-left: 1rem;
     }
 
     #add-btn{
@@ -76,6 +70,7 @@ body {
         display: flex;  
         flex-direction: column;
         margin-bottom: 5rem;
+        width: 100%;
     }
 
     .close-btn-list{
@@ -91,12 +86,6 @@ body {
         height: 30px;
     }
 
-
-    #check-btn{
-        position: absolute;
-        right: 91%;
-
-    }
 
     #habit-form{
         display: none; /* Inicialmente oculto */
@@ -189,7 +178,6 @@ body {
         text-align: center;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 1rem;
     }   
 
     
@@ -215,11 +203,14 @@ body {
         position: absolute;
         top: 0;
         left: 0;
+        right:0 ;
         height: 25px;
         width: 25px;
         background-color: #eee;
         border-radius: 4px;
         transition: background-color 0.3s;
+        margin-right: 4rem;
+        margin-top: 2rem;
       }
       
       .custom-checkbox:hover input ~ .checkmark {
@@ -295,12 +286,41 @@ body {
     .complete-btn-container button:active{
         background-color: #d32d9b;
     }           
+
+    .habit-item {
+        width: 100%;
+        }
+        .habit-item form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .habit-details {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s;
+            padding: 0;
+            margin-left: 5rem;
+
+        }
+        .delete-btn:hover {
+            transform: scale(1.2)
+        }
+
 }
 
 @media screen and (min-width: 768px) {
     body{
         display: flex;
         flex-direction: column;
+        width: 100%;
 
     }
     body h3{
@@ -321,8 +341,7 @@ body {
         margin-top: 1rem;
         align-items: center;
         width: 100%;
-        
-
+        text-align: center;
     }
     
     body li{
@@ -330,17 +349,25 @@ body {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        width: 33%;
-        gap: 2rem;
+        width: 100%;
         margin-bottom: 1rem;
         color: white;
+        text-align: left;
+        margin-left: 2rem;
     }
 
     body li strong{
         color: rgb(162, 23, 255);
     }
     body li p{
-        width: 50%
+        width: 500px ;
+        text-align: left;
+    }
+
+    .habit-form-content{
+        width: 100%;    
+        justify-content: space-between;
+        align-items: center;
     }
 
     #delete-btn{
@@ -352,6 +379,8 @@ body {
         color: white;
         margin-right: 2rem;
         margin-left: 1rem;
+        position: absolute;
+        left: 50%;
     }            
 
     #delete-btn:hover{
@@ -391,25 +420,18 @@ body {
         background-color: white;
         color: #8225fc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
     }
 
     .list{
         display: flex;  
         flex-direction: column;
         margin-bottom: 5rem;
+        width: 100%;
     }
 
     .close-btn-list{
-        position: absolute;
-        right: 10%;
-        top: 30.5%;
-        font-size: 30px;
-        color: white;
-        cursor: pointer;
-        background-color: transparent;
-        border: none;
-        width: 30px;
-        height: 30px;
+        display: none;
     }
 
     .check-btn{
@@ -443,12 +465,6 @@ body {
         padding: 20px;
         border-radius: 10px;
         width: 300px;
-        text-align: center;
-        justify-content: space-between;
-        height: 50%;  
-        align-items: center;
-        margin: auto;
-        margin-top: 50%
     }
 
     .habit-form-content h2{
@@ -456,9 +472,9 @@ body {
         font-size: 23px;
         font-weight: 500;
         margin-top: 0;
-        margin-bottom: 4rem;
         color: white;
         margin-right: 1rem;
+        text-align: center;
     }
 
     .habit-form-content label{
@@ -518,6 +534,7 @@ body {
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 1rem;
+
     }   
 
     
@@ -528,7 +545,7 @@ body {
         cursor: pointer;
         font-size: 16px;
         user-select: none;
-        right: 15%;
+        right: 20%;
       }
       
       .custom-checkbox input {
@@ -549,6 +566,33 @@ body {
         border-radius: 4px;
         transition: background-color 0.3s;
       }
+
+        .habit-item {
+        width: 100%;
+        }
+        .habit-item form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .habit-details {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s;
+            padding: 0;
+        }
+        .delete-btn:hover {
+            transform: scale(1.2);
+        }
+
+      
       
       .custom-checkbox:hover input ~ .checkmark {
         background-color: #ccc;
@@ -562,6 +606,13 @@ body {
         content: "";
         position: absolute;
         display: none;
+      }
+
+      .habit-details{
+        display: flex;
+        flex-direction: row ;
+        justify-content: space-between;
+        align-items: center;
       }
       
       .custom-checkbox input:checked ~ .checkmark:after {

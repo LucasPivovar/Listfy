@@ -243,7 +243,7 @@
         margin: 0;
         font-size: 40px;
         position: relative;
-        left: 2%;
+        left: 4%;
         font-weight: 300;
     }
 
@@ -458,7 +458,7 @@
     }
 
     #btn-save-user:hover{
-        background-color: #5101b3;
+        background-color: #b8b8b8;
         cursor: pointer;
     }
 

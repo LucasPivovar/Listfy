@@ -1,197 +1,128 @@
+
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-    background-color: #f2f2f2;
-    font-family: 'Poppins', sans-serif;
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
-
-.texts h3 {
-    opacity: 0;
-    transform: translateX(-100px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    color: #7300FF;
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 80vw;
+    background-color: #FFFFFF;
 }
 
-.texts h1 {
-    font-size: 3rem;
-    color: black;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.texts p{
-    font-size: 1.2rem;
-    color: #414141;
-    margin-bottom: 2rem;
-    width: 100%;
-}
-
-.btn{
-    background-color: #7300FF;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-    width: 100%;
-    height: 50px;
-    transition: background-color 0.3s;
-}
-
-.btn:hover{
-    background-color: #f443d2;
-    cursor: pointer;
-}
-
-.btn:active{
-    background-color: #d32d9b;
-    cursor: pointer;
-}
-
-#runner{
-    width: 650px;
-    height: 650px;
-    margin-top: 2rem;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.content{
-    width: 480px;
-    gap: 1rem; 
-    margin-right: 10rem; 
-    display: flex   ;
+.frame-one {
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-right: auto;
-    margin-left: -8rem;
+    width: 500px;
+    height: 500px;
 }
 
-@media screen and (min-width: 1480px) {
-    .main{
-        background-image: url("../assets/bg-dsk.png");
-        background-size: cover;
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap:15rem;
-
-    }
-
-
+.frame-one h1 {
+    font-size: 50px;
+    font-weight: bold;
+    color: #7300FF;
+    margin-bottom: 20px;
 }
 
-@media screen and (max-width: 1480px) {
-    .main{
-        background-image: url("../assets/bg-dsk.png");
-        background-size: cover;
-        background-position: center;
-        width: 100%;
-        height: 100vh;
+.frame-one p {
+    font-size: 25px;
+    color: #767676;
+    margin-bottom: 30px;
+    width: 85%;
+    text-align: center;
+}
+
+.frame-one button {
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #7300FF;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
+}
+
+.frame-one button:hover {
+    background-color: #6500a0;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 800px) {
+    .phone {
         display: flex;
-        flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap:10rem;
+    }
+}
+ 
+
+
+@media screen and (max-width: 800px) {
+    .main {
+        width: 90vw;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #FFFFFF;
 
     }
-    .content{
+    .frame-one {
         width: 100%;
-        gap: 1rem; 
-        margin-right: 0;   
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+    .frame-one h1 {
+        font-size: 50px;
+        font-weight: bold;
+        color: #7300FF;
+        margin-bottom: 20px;
+        text-align: center;
+
+    }
+    .frame-one p {
+        font-size: 25px;
+        color: #767676;
+        margin-bottom: 30px;
+        text-align: center;
+
+    }
+    .frame-one button {
+        width: 200px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: #7300FF;
+        color: #FFFFFF;
+        font-size: 20px;
+        font-weight: 400;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.2);
     }   
 
-    #runner{
-        width: 500px;
-        height: 500px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-        
-    body{
-        background-color: #f2f2f2;
-        font-family: 'Poppins', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+    .phone {
+        display: none;
     }
 
 
-    .texts h3 {
-        opacity: 0;
-        transform: translateX(-100px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        color: #7300FF;
-        font-size: 1.4rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .texts h1 {
-        font-size: 3rem;
-        color: black;
-        margin-bottom: 1rem;
-    }
-
-    .texts p{
-        font-size: 1.2rem;
-        color: #414141;
-        margin-bottom: 2rem;
-    }
-
-    .btn{
-        background-color: #7300FF;
-        color: white;
-        border: none;
-        border-radius: 25px;
-        font-size: 20px;
-        text-align: center;
-        margin-bottom: 1rem;
-        padding: 10px;
-        width: 100%;
-        height: 50px;
-        transition: background-color 0.3s;
-    }
-
-    .btn:hover{
-        background-color: #f443d2;
-        cursor: pointer;
-    }
-
-    .btn:active{
-        background-color: #d32d9b;
-        cursor: pointer;
-    }
-
-    #runner{
-        width: 550px;
-        height: 550px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .content{
-        width: 500px;
-        gap: 1rem; 
-        margin-right: 5rem;   
-    }
+    
 }

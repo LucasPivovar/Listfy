@@ -1,66 +1,71 @@
 <?php
 session_start();
 require_once __DIR__ . '/../db.php';
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+$alertMessage = '';
+
+// Verificação de login
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /../generate.php");
+    header("Location: /../generate.php?error=nologin");
     exit;
 }
 
 $userId = $_SESSION['user_id'];
 $currentMonth = date('Y-m');
 
+// Logout
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     session_destroy();
-    header("Location: /../generate.php");
+    header("Location: /../generate.php?success=logout");
     exit;
 }
 
 // Calcular o total de hábitos diários do usuário
-$stmt = $pdo->prepare("SELECT COUNT(*) AS total_habits FROM habits WHERE user_id = ?");
-$stmt->execute([$userId]);
-$totalDailyHabits = $stmt->fetchColumn();
+try {
+    // Total de hábitos
+    $stmt = $pdo->prepare("SELECT COUNT(*) AS total_habits FROM habits WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $totalDailyHabits = $stmt->fetchColumn();
+    $daysInMonth = date('t');
+    $totalMonthlyHabits = $totalDailyHabits * $daysInMonth;
 
-$daysInMonth = date('t');
-$totalMonthlyHabits = $totalDailyHabits * $daysInMonth;
+    // Hábitos concluídos
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*) AS completed_habits
+        FROM habit_tracking
+        WHERE user_id = ? AND DATE_FORMAT(date, '%Y-%m') = ?
+    ");
+    $stmt->execute([$userId, $currentMonth]);
+    $completedHabits = $stmt->fetchColumn();
 
-// Recuperar o total de hábitos concluídos no mês atual
-$stmt = $pdo->prepare("
-    SELECT COUNT(*) AS completed_habits
-    FROM habit_tracking
-    WHERE user_id = ? AND DATE_FORMAT(date, '%Y-%m') = ?
-");
-$stmt->execute([$userId, $currentMonth]);
-$completedHabits = $stmt->fetchColumn();
+    // Calcular progresso percentual
+    $progressPercentage = $totalMonthlyHabits > 0 
+        ? round(($completedHabits / $totalMonthlyHabits) * 100, 2) 
+        : 0;
 
-// Depuração
-$debugInfo = "<!-- Debug: \n" .
-             "userId: $userId\n" .
-             "currentMonth: $currentMonth\n" .
-             "totalDailyHabits: $totalDailyHabits\n" .
-             "daysInMonth: $daysInMonth\n" .
-             "totalMonthlyHabits: $totalMonthlyHabits\n" .
-             "SQL Query: " . $stmt->queryString . "\n" .
-             "SQL Params: " . json_encode([$userId, $currentMonth]) . "\n" .
-             "completedHabits: $completedHabits\n" .
-             "-->";
+} catch (PDOException $e) {
+    // Em caso de erro no banco de dados
+    $alertMessage = "Erro ao carregar estatísticas: " . $e->getMessage();
+    $totalDailyHabits = 0;
+    $totalMonthlyHabits = 0;
+    $completedHabits = 0;
+    $progressPercentage = 0;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas Estatísticas</title>
+    <title>Minhas Estatísticas - Listify</title>
     <link rel="stylesheet" href="./style/header.css">
     <link rel="stylesheet" href="./style/mystats.css">
     <link rel="icon" type="image/png" href="./assets/lua.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <?php echo $debugInfo; ?>
     <div class="header">
         <h1>Listify</h1>
         <button id="open-modal-btn">Menu</button>
@@ -84,16 +89,57 @@ $debugInfo = "<!-- Debug: \n" .
             </div>
         </div>
     </div>
+
     <div class="main">
         <h4>Minhas Estatísticas</h4>
-        <p>Total de hábitos concluídos no mês: <br>
-            <strong><?php echo $completedHabits; ?> / <?php echo $totalMonthlyHabits; ?></strong>
-        </p>
-        <p><strong>Parabéns!</strong></p>
+        
+        <div class="stats-container">
+            <p>Total de hábitos concluídos no mês: <br>
+                <strong><?php echo $completedHabits; ?> / <?php echo $totalMonthlyHabits; ?></strong>
+            </p>
+            <p>Progresso: <strong><?php echo $progressPercentage; ?>%</strong></p>
+            
+            <?php if ($progressPercentage >= 75): ?>
+                <p class="congratulations">🎉 Parabéns! Você está indo muito bem! 🎉</p>
+            <?php elseif ($progressPercentage >= 50): ?>
+                <p class="motivation">Você está no caminho certo! Continue assim!</p>
+            <?php else: ?>
+                <p class="encouragement">Mantenha o foco! Cada pequeno passo conta.</p>
+            <?php endif; ?>
+        </div>
+
         <canvas id="habitsChart" width="400" height="200"></canvas>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // Função para exibir alertas
+            function showAlert(message, type = 'info') {
+                const alertTypes = {
+                    'info': '📢 Informação',
+                    'success': '✅ Sucesso',
+                    'error': '❌ Erro'
+                };
+                alert(`${alertTypes[type]}\n\n${message}`);
+            }
+
+            // Verifica se há mensagens de sucesso ou erro na URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const successParam = urlParams.get('success');
+            const errorParam = urlParams.get('error');
+
+            // Alertas de sucesso
+            if (successParam === 'login') {
+                showAlert('Login realizado com sucesso!', 'success');
+            } else if (successParam === 'logout') {
+                showAlert('Logout realizado com sucesso!', 'success');
+            }
+
+            // Alertas de erro
+            if (errorParam === 'nologin') {
+                showAlert('Você precisa estar logado para acessar esta página.', 'error');
+            }
+
             // Modal script
             const modal = document.getElementById("modal");
             const openModalBtn = document.getElementById("open-modal-btn");
