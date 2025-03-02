@@ -1,0 +1,74 @@
+@media screen {
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: #121212; /* Um tom de preto mais suave */
+        font-family: "Montserrat", sans-serif;
+        color: #C0C0C0;
+    }
+
+    h4 {
+        font-size: 2rem;  /* Usando rem para tamanho relativo */
+        font-weight: 500;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        color: #AD6BFD;
+        text-align: center; /* Centraliza o título */
+    }
+
+    p {
+        font-size: 1rem;   /* Reduzido um pouco para melhorar leitura */
+        font-weight: 300;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        color: #C0C0C0;
+        width: 90%;
+        line-height: 1.5;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #1A1919;
+        border-radius: 25px;
+        margin-top: 2rem;
+        padding: 2rem;  /* Adicionando um padding para melhorar o espaçamento interno */
+    }
+
+    .header strong {
+        text-align: center;
+        margin-left: 2rem;
+        font-size: 1.2rem;  /* Ajuste do tamanho */
+    }
+
+    canvas#habitsChart {
+        max-width: 600px;
+        margin: 20px auto;
+        display: block;
+    }
+    
+
+    /* Melhorando a responsividade em dispositivos menores */
+    @media (max-width: 768px) {
+        h4 {
+            font-size: 1.5rem;  /* Ajusta o tamanho do título em telas menores */
+        }
+
+        p {
+            font-size: 0.9rem;  /* Ajusta o tamanho do parágrafo */
+        }
+
+        .main {
+            width: 80%; /* Um pouco maior em telas pequenas */
+            padding: 1rem; /* Menos padding para caber melhor */
+        }
+
+    }
+}
