@@ -2,7 +2,7 @@
 
     function generateHabits($description) {
         try {
-            $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBalmGjCeTdTeRPEwp2g3Vo1oexpmqjYrk";
+            $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$key";
             
             // Preparar os dados para a requisição
             $data = [
